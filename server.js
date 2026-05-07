@@ -17,6 +17,23 @@ app.get("/codechef/contests",async(req,res)=>{
   res.json(response.data);
 })
 
+app.get("/hackerrank/contests", async (req, res) => {
+  try {
+    const response = await axios.get(
+      "https://www.hackerrank.com/rest/contests/upcoming",
+      {
+        headers: {
+          "User-Agent": "Mozilla/5.0",
+          Accept: "application/json",
+        },
+      }
+    );
+
+    res.json(response.data.models);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch HackerRank data" });
+  }
+});
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
