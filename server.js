@@ -12,6 +12,11 @@ app.get("/codeforces/contests", async (req, res) => {
   res.json(response.data.result);
 });
 
+app.get("/codechef/contests",async(req,res)=>{
+  const response=await axios.get("https://www.codechef.com/api/list/contests/all");
+  res.json(response.data);
+})
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
