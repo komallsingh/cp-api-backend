@@ -34,6 +34,26 @@ app.get("/hackerrank/contests", async (req, res) => {
     res.status(500).json({ error: "Failed to fetch HackerRank data" });
   }
 });
+
+app.get('/atcoder/contests', async (req, res) => {
+
+  try {
+
+    const response = await axios.get(
+      'https://kenkoooo.com/atcoder/resources/contests.json'
+    );
+
+    res.json(response.data);
+
+  } catch (err) {
+
+    res.status(500).json({
+      error: 'Failed to fetch AtCoder contests'
+    });
+
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
