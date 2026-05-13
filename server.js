@@ -54,6 +54,6 @@ app.get('/atcoder/contests', async (req, res) => {
   }
 });
 
-app.listen(3000, "0.0.0.0", () => {
-  console.log("Server running");
+app.listen(PORT, () => {
+  console.log(`Server running on ${PORT}`);
 });
