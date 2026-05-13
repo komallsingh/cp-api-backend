@@ -4,7 +4,7 @@ const axios=require('axios');
 const app=express();
 app.use(cors());
 app.use(express.json());
-const PORT=3000;
+const PORT = process.env.PORT || 3000;
 
 
 app.get("/codeforces/contests", async (req, res) => {
@@ -54,6 +54,6 @@ app.get('/atcoder/contests', async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+app.listen(3000, "0.0.0.0", () => {
+  console.log("Server running");
 });
