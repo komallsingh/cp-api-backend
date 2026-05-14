@@ -8,14 +8,22 @@ const PORT = process.env.PORT || 3000;
 
 
 app.get("/codeforces/contests", async (req, res) => {
-  const response = await axios.get("https://codeforces.com/api/contest.list");
-  res.json(response.data.result);
+  try {
+    const response = await axios.get("https://codeforces.com/api/contest.list");
+    res.json(response.data.result);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch Codeforces data" });
+  }
 });
 
 app.get("/codechef/contests",async(req,res)=>{
-  const response=await axios.get("https://www.codechef.com/api/list/contests/all");
-  res.json(response.data);
-})
+  try{
+    const response=await axios.get("https://www.codechef.com/api/list/contests/all");
+    res.json(response.data);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch CodeChef data" });
+  }
+});
 
 app.get("/hackerrank/contests", async (req, res) => {
   try {
