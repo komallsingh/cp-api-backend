@@ -45,6 +45,51 @@ app.get("/hackerrank/contests", async (req, res) => {
   }
 });
 
+//LEETCODE
+app.get("/leetcode/contests", async (req, res) => {
+  try {
+
+    const response = await axios.post(
+      "https://leetcode.com/graphql",
+      {
+        query: `
+          query {
+            allContests {
+              title
+              titleSlug
+              startTime
+              duration
+            }
+          }
+        `
+      },
+      {
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }
+    );
+
+    const now = Math.floor(Date.now() / 1000);
+
+    const contests = response.data.data.allContests
+      .filter(contest => contest.startTime > now)
+      .map(contest => ({
+        title: contest.title,
+        startTime: contest.startTime,
+        duration: contest.duration,
+        url: `https://leetcode.com/contest/${contest.titleSlug}`
+      }));
+
+    res.json(contests);
+
+  } catch (err) {
+
+    res.status(500).json({
+      error: "Failed to fetch LeetCode data"
+    });
+  }
+});
 
 app.listen(PORT, () => {
   console.log(`Server running on ${PORT}`);
