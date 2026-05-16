@@ -6,7 +6,7 @@ app.use(cors());
 app.use(express.json());
 const PORT = process.env.PORT || 3000;
 
-
+// CODEFORCES
 app.get("/codeforces/contests", async (req, res) => {
   try {
     const response = await axios.get("https://codeforces.com/api/contest.list");
@@ -16,6 +16,7 @@ app.get("/codeforces/contests", async (req, res) => {
   }
 });
 
+//CODECHEF
 app.get("/codechef/contests",async(req,res)=>{
   try{
     const response=await axios.get("https://www.codechef.com/api/list/contests/all");
@@ -25,6 +26,7 @@ app.get("/codechef/contests",async(req,res)=>{
   }
 });
 
+// HACKERRANK - LOADS BUT FAILS AS MOST IS PAST CONTESTS
 app.get("/hackerrank/contests", async (req, res) => {
   try {
     const response = await axios.get(
@@ -43,24 +45,6 @@ app.get("/hackerrank/contests", async (req, res) => {
   }
 });
 
-app.get('/atcoder/contests', async (req, res) => {
-
-  try {
-
-    const response = await axios.get(
-      'https://kenkoooo.com/atcoder/resources/contests.json'
-    );
-
-    res.json(response.data);
-
-  } catch (err) {
-
-    res.status(500).json({
-      error: 'Failed to fetch AtCoder contests'
-    });
-
-  }
-});
 
 app.listen(PORT, () => {
   console.log(`Server running on ${PORT}`);
