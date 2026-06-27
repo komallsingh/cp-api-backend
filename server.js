@@ -99,13 +99,12 @@ app.get("/leetcode/contests", async (req, res) => {
   }
 });
 
-
+app.get("/", (req, res) => {
+  res.send("Backend Running");
+});
 
 app.use("/auth", authRoutes);
 
-console.log("MONGO_URI exists:", !!process.env.MONGO_URI);
-console.log("MONGO_URI =", process.env.MONGO_URI);
-console.log("JWT_SECRET =", process.env.JWT_SECRET);
 
 if (process.env.NODE_ENV !== "test") {
   connectDB();
