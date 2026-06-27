@@ -94,3 +94,17 @@ app.get("/leetcode/contests", async (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server running on ${PORT}`);
 });
+
+
+//auth
+require("dotenv").config();
+
+const connectDB =
+    require("./config/db");
+
+const authRoutes =
+    require("./routes/authRoute");
+
+connectDB();
+
+app.use("/auth", authRoutes);
