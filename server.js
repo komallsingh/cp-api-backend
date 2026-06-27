@@ -1,32 +1,45 @@
-const express=require('express');
-const cors=require('cors');
-const axios=require('axios');
-const app=express();
+require("dotenv").config();
+
+const express = require("express");
+const cors = require("cors");
+const axios = require("axios");
+
+const connectDB = require("./config/db");
+const authRoutes = require("./routes/authRoute");
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+
 app.use(cors());
 app.use(express.json());
-const PORT = process.env.PORT || 3000;
+
+//CONTEST ROUTES 
 
 // CODEFORCES
 app.get("/codeforces/contests", async (req, res) => {
   try {
-    const response = await axios.get("https://codeforces.com/api/contest.list");
+    const response = await axios.get(
+      "https://codeforces.com/api/contest.list"
+    );
     res.json(response.data.result);
   } catch (err) {
     res.status(500).json({ error: "Failed to fetch Codeforces data" });
   }
 });
 
-//CODECHEF
-app.get("/codechef/contests",async(req,res)=>{
-  try{
-    const response=await axios.get("https://www.codechef.com/api/list/contests/all");
+// CODECHEF
+app.get("/codechef/contests", async (req, res) => {
+  try {
+    const response = await axios.get(
+      "https://www.codechef.com/api/list/contests/all"
+    );
     res.json(response.data);
   } catch (err) {
     res.status(500).json({ error: "Failed to fetch CodeChef data" });
   }
 });
 
-// HACKERRANK - LOADS BUT FAILS AS MOST IS PAST CONTESTS
+// HACKERRANK
 app.get("/hackerrank/contests", async (req, res) => {
   try {
     const response = await axios.get(
@@ -45,10 +58,9 @@ app.get("/hackerrank/contests", async (req, res) => {
   }
 });
 
-//LEETCODE
+// LEETCODE
 app.get("/leetcode/contests", async (req, res) => {
   try {
-
     const response = await axios.post(
       "https://leetcode.com/graphql",
       {
@@ -61,12 +73,12 @@ app.get("/leetcode/contests", async (req, res) => {
               duration
             }
           }
-        `
+        `,
       },
       {
         headers: {
-          "Content-Type": "application/json"
-        }
+          "Content-Type": "application/json",
+        },
       }
     );
 
@@ -78,33 +90,25 @@ app.get("/leetcode/contests", async (req, res) => {
         title: contest.title,
         startTime: contest.startTime,
         duration: contest.duration,
-        url: `https://leetcode.com/contest/${contest.titleSlug}`
+        url: `https://leetcode.com/contest/${contest.titleSlug}`,
       }));
 
     res.json(contests);
-
   } catch (err) {
-
-    res.status(500).json({
-      error: "Failed to fetch LeetCode data"
-    });
+    res.status(500).json({ error: "Failed to fetch LeetCode data" });
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running on ${PORT}`);
-});
 
-
-//auth
-require("dotenv").config();
-
-const connectDB =
-    require("./config/db");
-
-const authRoutes =
-    require("./routes/authRoute");
-
-connectDB();
 
 app.use("/auth", authRoutes);
+
+console.log("MONGO_URI exists:", !!process.env.MONGO_URI);
+
+if (process.env.NODE_ENV !== "test") {
+  connectDB();
+}
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
