@@ -6,7 +6,7 @@ const axios = require("axios");
 
 const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoute");
-
+const mongoose = require("mongoose");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
