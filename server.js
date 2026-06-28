@@ -127,7 +127,7 @@ const startServer = async () => {
 
   } catch (err) {
     console.error("Startup error:", err);
-    process.exit(1);
+    //process.exit(1);
   }
 };
 
