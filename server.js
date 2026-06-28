@@ -103,6 +103,15 @@ app.get("/", (req, res) => {
   res.send("Backend Running");
 });
 
+app.get("/health", async (req, res) => {
+
+  const mongoose = require("mongoose");
+
+  res.json({
+    readyState: mongoose.connection.readyState
+  });
+});
+
 app.use("/auth", authRoutes);
 console.log("NODE_ENV:", process.env.NODE_ENV);
 console.log("MONGO_URI exists:", !!process.env.MONGO_URI);
