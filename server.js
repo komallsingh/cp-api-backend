@@ -103,12 +103,10 @@ app.get("/", (req, res) => {
   res.send("Backend Running");
 });
 
-app.get("/health", async (req, res) => {
-
-  const mongoose = require("mongoose");
-
+app.get("/health", (req, res) => {
   res.json({
-    readyState: mongoose.connection.readyState
+    readyState: mongoose.connection.readyState,
+    dbName: mongoose.connection.name
   });
 });
 
